@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D3 JS Demo</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+
+  <h1>D3.JS Demo</h1>
+  <!--  <circle cx="200" cy="200" r="200"></circle> -->
+
+  <h2>Circel in D3 JS</h2>
+  <div id="circleContainer">
+
+  </div>
+  <script>
+    const circleContainerEl = d3.select('#circleContainer');
+    const circleSvg = circleContainerEl.append('svg')
+      .attr('width', 500)
+      .attr('height', 500);
+
+    circleSvg.append('circle')
+      .attr('cx', 200)
+      .attr('cy', 200)
+      .attr('r', 100)
+      .attr('fill', 'pink');
+    
+     circleSvg.append('circle')
+        .attr('cx', 300)
+        .attr('cy', 300)
+        .attr('r', 50)
+        .attr('fill', 'purple');
+
+     circleSvg.append('circle')
+        .attr('cx', 250)
+        .attr('cy', 100)
+        .attr('r', 75)
+        .attr('fill', 'green');
+    
+  </script>
+  
+  <h2>Rect in D3 JS</h2>
+  <div id="rectContainer">
+  
+  </div>
+  <script>
+    
+  </script>
+</body>
+</html>
