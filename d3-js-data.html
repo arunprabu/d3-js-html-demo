@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <title>D3JS with Data</title>
+</head>
+<body>
+  
+  <h1>Binding Data | Cricket batsmen's score</h1>
+  <div id="crickersScore"></div>
+  <script>
+    const scores = [
+      { id: 1, name: 'Virat Kohli', runs: 110},
+      { id: 2, name: 'Rohit', runs: 60 },
+      { id: 3, name: 'KL Rahul', runs: 43 },
+      { id: 4, name: 'Suryakumar', runs: 67 },
+      { id: 5, name: 'Hardik', runs: 16 }
+    ];
+
+    d3.select("#crickersScore")
+      .selectAll('p') // mentioning what element I want to have inside crickersScore el 
+      .data(scores) // binding data -- joins the array with the currently selected element 'p'
+      .enter() // enter will select the missing element - i.e 'p' tags  -- must call data() before
+      .append('p') // this will create sevaral 'p' tags
+      .text( ( player  ) => {
+        console.log(player);
+        return `${player.name} scored ${player.runs} Runs`; // it must return something 
+        // if this is not returning anything-- you won't see inner text in 'p' tag
+      }); // will add inner text into 'p' tags -- param of api can be a callback fn as well 
+      // each point in your data set can have 3 possible states namely 'enter', 'update', 'exit'
+
+  </script>
+
+  <h2>Binding Data to create menus</h2>
+  <ul id="menuList"></ul>
+  <script>
+    const myMenus = [
+      'Home', 'About', 'Contact', 'Login', 'Signup'
+    ];
+    d3.select('#menuList')
+      .selectAll('li')
+      .data(myMenus)
+      .enter()
+      .append('li')
+      .text( (menu) => menu)
+  </script>
+
+
+</body>
+</html>
