@@ -31,7 +31,6 @@
         // if this is not returning anything-- you won't see inner text in 'p' tag
       }); // will add inner text into 'p' tags -- param of api can be a callback fn as well 
       // each point in your data set can have 3 possible states namely 'enter', 'update', 'exit'
-
   </script>
 
   <h2>Binding Data to create menus</h2>
@@ -48,6 +47,38 @@
       .text( (menu) => menu)
   </script>
 
+  <h2>Binding Data and Creating SVG's with circles</h2>
+  <div id="svgWrapper"></div>
+  <script>
+    const circles = [
+      { cx: 50, cy: 50, r: 50, fill: 'pink', },
+      { cx: 120, cy: 120, r: 60, fill: 'green' },
+      { cx: 180, cy: 180, r: 40, fill: 'blue' },
+      { cx: 240, cy: 65, r: 65, fill: 'purple' }
+    ];
+
+    const svgEl = d3.select("#svgWrapper")
+      .append('svg')
+      .attr('width', 600)
+      .attr('height', 600);
+
+    svgEl.selectAll('circle')
+      .data(circles)
+      .enter()
+      .append('circle')
+      .attr('cx', ({cx}) => {
+        return cx;
+      })
+      .attr('cy', ({cy}) => {
+        return cy;
+      })
+      .attr('r', ({r}) => {
+        return r;
+      })
+      .attr('fill', ({fill}) => {
+        return fill;
+      })
+  </script>
 
 </body>
 </html>
