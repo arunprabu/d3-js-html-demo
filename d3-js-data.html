@@ -49,13 +49,21 @@
 
   <h2>Binding Data and Creating SVG's with circles</h2>
   <div id="svgWrapper"></div>
+  <button onclick="handleAddSearchEngine()">Add</button>
   <script>
-    const circles = [
-      { cx: 50, cy: 50, r: 50, fill: 'pink', },
-      { cx: 120, cy: 120, r: 60, fill: 'green' },
-      { cx: 180, cy: 180, r: 40, fill: 'blue' },
-      { cx: 240, cy: 65, r: 65, fill: 'purple' }
+    let searchEngines = [
+      { name: 'Google', cx: 120, cy: 160, r: 120, fill: 'red', link: 'https://www.google.com' },
+      { name: 'Bing', cx: 250, cy: 450, r: 100, fill: 'green', link: 'https://www.bing.com' },
+      { name: 'Yahoo', cx: 500, cy: 200, r: 70, fill: 'blue', link: 'https://www.yahoo.com' },
+      { name: 'Yandex', cx: 400, cy: 400, r: 70, fill: 'purple', link: 'https://www.yandex.com' }
     ];
+
+    const handleAddSearchEngine = () => {
+      searchEngines = [
+        ...searchEngines,
+        { name: 'DuckDuckGo', cx: 450, cy: 200, r: 50, fill: 'aqua', link: 'https://www.duckduckgo.com' }
+      ]
+    }
 
     const svgEl = d3.select("#svgWrapper")
       .append('svg')
@@ -63,9 +71,20 @@
       .attr('height', 600);
 
     svgEl.selectAll('circle')
-      .data(circles)
+      .data(searchEngines)
       .enter()
+      .append('a')
+      .attr('href', ({link}) => {
+        return link;
+      })
       .append('circle')
+      .on('mouseover', (event, data) => {
+        showTooltip(data);
+      })
+      .on('mouseleave', (event, data) => {
+        removeTooltip();
+      })
+      .transition('10000')
       .attr('cx', ({cx}) => {
         return cx;
       })
@@ -77,8 +96,28 @@
       })
       .attr('fill', ({fill}) => {
         return fill;
-      })
+      });
+
+    const showTooltip = (data) => {
+      console.log('inside show tooltip');
+      console.log(data);
+      svgEl.append('text')
+           .attr('x', data.cx - 20)
+           .attr('y', data.cy)
+           .attr('fill', 'white')
+           .text(data.name);
+    }
+
+    const removeTooltip = () => {
+        console.log('removing tooltip');
+        
+        svgEl.select('text')
+          .remove();   
+      }
+
   </script>
 
+
+  
 </body>
 </html>
