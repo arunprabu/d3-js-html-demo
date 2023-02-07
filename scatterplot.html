@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <title>Document</title>
+</head>
+<body>
+
+  <h1>Search Engine Market Share - Scatterplot Chart using D3.JS </h1>
+  <svg id="svgWrapper" width="600" height="600"></svg>
+  <script>
+    let searchEngines = [
+      { name: 'Google', cx: 120, cy: 160, r: 120, fill: 'red', link: 'https://www.google.com' },
+      { name: 'Bing', cx: 250, cy: 450, r: 100, fill: 'green', link: 'https://www.bing.com' },
+      { name: 'Yahoo', cx: 500, cy: 200, r: 70, fill: 'blue', link: 'https://www.yahoo.com' },
+      { name: 'Yandex', cx: 400, cy: 400, r: 70, fill: 'purple', link: 'https://www.yandex.com' }
+    ];
+
+    const svgEl = d3.select("#svgWrapper");
+    const anchorEl = svgEl.selectAll('a')
+      .data(searchEngines)
+      .enter()
+      .append('a')
+      .attr('href', ({link}) => link)
+      .attr('target', () => '_blank');
+
+    const circleEl = anchorEl
+      .append('circle')
+      .on('mouseover', function(event, data){ // only if it is traditional fn you can have access to circle 
+        // if you have arrow fn -- this keyword wont give you circle but window obj 
+        // console.log(event);
+        console.log(data);
+        console.log(this); 
+        createTooltip(data); // create text element inside circle 
+      })
+      .on('mouseout', (event, data) => {
+        console.log('mouseout');
+        removeTooltip();
+      })
+      .transition()
+      .duration(750)
+      .ease(d3.easeLinear)
+      .attr('cx', ({cx}) => cx)
+      .attr('cy', ({ cy }) => cy)
+      .attr('r', ({ r }) => r)
+      //.style('fill', ({ fill }) => fill)
+      .attr('fill', ({ fill }) => fill)
+      
+    
+    const createTooltip = ({cx, cy, name}) => {
+      svgEl.append('text')
+        .attr('x', cx) 
+        .attr('y', cy)
+        .attr('text-anchor', 'middle')
+        .attr('fill', 'white')
+        .text(name)
+    }
+
+    const removeTooltip = () => {
+      svgEl.select('text')
+        .remove();
+    } 
+      
+  </script>
+</body>
+</html>

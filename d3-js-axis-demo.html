@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>x - axis and y - axis</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+  <h1>x- axis and y-axis</h1>
+  <svg id="axisSvg" width="1000" height="800">
+    <!-- for y axis -->
+    <g id="leftLine" transform="translate(70, 50)"></g>
+    <!-- for x axis -->
+    <g id="bottomLine" transform="translate(70, 600)"></g>
+  </svg>
+  <script>
+    // domain is place for you to enter min and max value for the axis
+    // range is the starting position and ending position of the axis in pixels
+    const leftScale = d3.scaleLinear()
+        .domain([300, 0])
+        .range([0, 550]);
+
+    const leftAxis = d3.axisLeft(leftScale);
+    leftAxis.ticks(15)
+      .tickFormat((data) => {
+        return data + ' Runs';
+      });
+    d3.select('#leftLine')
+      .call(leftAxis);
+
+    const bottomScale = d3.scaleLinear()
+      .domain([1, 20])
+      .range([0, 800]);
+    
+    const bottomAxis = d3.axisBottom(bottomScale);
+    bottomAxis.ticks(20)
+      .tickFormat( (data) => {
+        return data + ' Ov';
+      });
+    d3.select('#bottomLine')
+      .call(bottomAxis);
+    
+  </script>
+
+</body>
+</html>
