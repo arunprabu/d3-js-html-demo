@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <title>Document</title>
+</head>
+
+<body>
+  <h2>Drag in SVG Demo</h2>
+  <svg id="dragSvgContainer" width="800" height="600"></svg>
+  <script>
+    let searchEngines = [
+      { name: 'Google', cx: 120, cy: 160, r: 120, fill: 'red', link: 'https://www.google.com' },
+      { name: 'Bing', cx: 250, cy: 450, r: 100, fill: 'green', link: 'https://www.bing.com' },
+      { name: 'Yahoo', cx: 500, cy: 200, r: 70, fill: 'blue', link: 'https://www.yahoo.com' },
+      { name: 'Yandex', cx: 400, cy: 400, r: 70, fill: 'purple', link: 'https://www.yandex.com' }
+    ];
+
+    /* setting up drag */
+    const handleDrag = (event) => {
+      console.log(event);
+      event.subject.cx = event.x;
+      event.subject.cy = event.y;
+      createCircles();
+    }
+    let drag = d3.drag()
+      .on('drag', handleDrag);
+
+    const initDrag = () => {
+      console.log('initDrag')
+      d3.select("#dragSvgContainer")
+        .selectAll('circle')
+        .call(drag)
+    }
+
+    /* creating svg's */
+    function createCircles() {
+      const svgEl = d3.select("#dragSvgContainer");
+      const anchorEl = svgEl.selectAll('circle')
+        .data(searchEngines)
+        .join('circle')
+        .attr('cx', ({ cx }) => cx)
+        .attr('cy', ({ cy }) => cy)
+        .attr('r', ({ r }) => r)
+        .attr('fill', ({ fill }) => fill);
+    }
+    createCircles();
+
+    initDrag();
+  </script>
+
+  <h2>Zoom in D3 JS</h2>
+  <svg id="zoomSvgContainer" width="1000" height="1000">
+    <style>
+      circle {
+        opacity: 0.7;
+      }
+    </style>
+    <g></g>
+  </svg>
+  <script>
+    let stars = [];
+    for (let i = 0; i < 10; i++) {
+      stars.push({
+        id: i,
+        cx: Math.random() * 1000,
+        cy: Math.random() * 1000
+      });
+    }
+
+    let zoom = d3.zoom()
+        .scaleExtent([1, 10]) // how many times you should zoom
+        .translateExtent([[0, 0], [1000, 1000]]) // positions of starting x, y and ending x and y
+        .on('zoom', handleZoom);
+
+    function handleZoom(event){
+      console.log(event);
+      d3.select('#zoomSvgContainer g')
+        .attr('transform', event.transform)
+    }
+
+    function initZoom() {
+      d3.select('#zoomSvgContainer')
+        .call(zoom);
+    }
+
+    function createStars() {
+      d3.select('#zoomSvgContainer g')
+        .selectAll('circle')
+        .data(stars)
+        .join('circle')
+        .attr('cx', ({ cx }) => cx)
+        .attr('cy', ({ cy }) => cy)
+        .attr('r', 30);
+    }
+    createStars();
+    initZoom();
+
+  </script>
+</body>
+
+</html>
